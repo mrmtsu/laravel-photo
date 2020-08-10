@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
+  public function __construct()
+  {
+      $this->authorizeResource(Article::class, 'article');
+  }
+
   public function index()
   {
     $articles = Article::all()->sortByDesc('created_at');
@@ -23,11 +28,35 @@ class ArticleController extends Controller
   public function store(ArticleRequest $request, Article $article)
   {
     $article->fill($request->all());
-    $originalImg = $request->image;
-    $filePath = $originalImg->store('public/images/');
-    $article->image = str_replace('public/images/', '', $filePath);
+    $filename = $request->file('image')->store('public/images/');
+    $article->image = basename($filename);
     $article->user_id = $request->user()->id;
     $article->save();
+
     return redirect()->route('articles.index');
+  }
+
+  public function edit(Article $article)
+  {
+    return view('articles.edit', ['article' => $article]);
+  }
+
+  public function update(ArticleRequest $request, Article $article)
+  {
+    $article->fill($request->all());
+    $originalImg = $request->image;
+    $article->save();
+    return redirect()->route('articles.index');
+  }
+
+  public function destroy(Article $article)
+  {
+      $article->delete();
+      return redirect()->route('articles.index');
+  }
+
+  public function show(Article $article)
+  {
+      return view('articles.show', ['article' => $article]);
   }
 }
