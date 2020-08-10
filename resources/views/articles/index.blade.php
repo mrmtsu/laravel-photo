@@ -25,6 +25,9 @@
           <div class="card-text">
             {!! nl2br(e( $article->body )) !!}
           </div>
+          <div class="card-text">
+            <img src="{{ asset('storage/images'.$article->image) }}" style="width:350px; height:380px;">
+          </div>
         </div>
       </div>
     @endforeach
