@@ -35,11 +35,19 @@ class ArticleController extends Controller
 
   public function store(ArticleRequest $request, Article $article)
   {
-    $article->fill($request->all());
-    $filename = $request->file('image')->store('public/images/');
-    $article->image = basename($filename);
-    $article->user_id = $request->user()->id;
-    $article->save();
+
+    if($request->file('image')->isValid()) {
+        $article->fill($request->all());
+        $filename = $request->file('image')->store('public/images/');
+        $article->image = basename($filename);
+        $article->user_id = $request->user()->id;
+        $article->save();
+    }
+    // $article->fill($request->all());
+    // $filename = $request->file('image')->store('public/images/');
+    // $article->image = basename($filename);
+    // $article->user_id = $request->user()->id;
+    // $article->save();
 
     $request->tags->each(function ($tagName) use ($article) {
       $tag = Tag::firstOrCreate(['name' => $tagName]);

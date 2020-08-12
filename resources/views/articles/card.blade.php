@@ -1,7 +1,7 @@
 <div class="card mt-3">
   <div class="card-body d-flex flex-row">
     <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="text-dark">
-      <i class="fas fa-user-ninja fa-3x mr-1"></i>
+      <i class="fas fa-user-circle fa-3x mr-3"></i>
     </a>
     <div>
       <div class="font-weight-bold">
@@ -68,13 +68,9 @@
     <div class="card-text">
       {!! nl2br(e( $article->body )) !!}
     </div>
-    @if(!file_exists($article->image))
+    @if($article->image)
       <div class="card-text">
-        <img src="{{ asset('storage/images/'.$article->image) }}" style="width:350px; height:380px;">
-      </div>
-    @else
-      <div class="card-text">
-        <img class="" src="{{ asset('images/default.png') }}" style="width:350px; height:380px;">
+        <img src="{{ asset('storage/images/'.$article->image) }}">
       </div>
     @endif
   </div>

@@ -35,6 +35,7 @@ class ArticleRequest extends FormRequest
     return [
         'title' => 'タイトル',
         'body' => '本文',
+        'image' => '画像',
         'tags' => 'タグ',
     ];
   }
